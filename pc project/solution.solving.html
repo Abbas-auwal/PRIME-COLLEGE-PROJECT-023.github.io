@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width>, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="9style.css">
+</head>
+<body>
+    <h1> Sun Calculator</h1>
+    <form>
+      <label for="location">Location:</label>
+      <input type="text" id="location" name="location" required>
+      <br>
+      <label for="date">Date:</label>
+      <input type="date" id="date" name="date" required>
+      <br>
+      <button type="submit">Calculate</button>
+    </form>
+    <div id="result"></div>
+    <script src="script.js"></script>
+      
+<script>
+   const form = document.querySelector('form');
+const result = document.querySelector('#result');
+
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const location = form.elements.location.value;
+  const date = form.elements.date.value;
+  const url = `https://api.sunrise-sunset.org/json?formatted=0&latlng=${location}&date=${date}`;
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      const sunrise = new Date(data.results.sunrise);
+      const sunset = new Date(data.results.sunset);
+      const duration = new Date(sunset - sunrise);
+      result.innerHTML = `
+        <h2>Results for ${location} on ${date}</h2>
+        <p>Sunrise: ${sunrise.toLocaleTimeString()}</p>
+        <p>Sunset: ${sunset.toLocaleTimeString()}</p>
+        <p>Duration: ${duration.getUTCHours()} hours ${duration.getUTCMinutes()} minutes</p>
+      `;
+      result.style.display = 'block';
+    })
+    .catch(error => console.error(error));
+});
+
+</script>
+</body>
+</html>

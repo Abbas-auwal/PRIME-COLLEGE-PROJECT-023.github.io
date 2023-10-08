@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Eclipse Calculation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input {
+            width: 200px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Eclipse Calculation</h1>
+    <form id="eclipseForm">
+        <label for="eclipseDuration">Enter the duration of the eclipse in minutes:</label>
+        <input type="number" id="eclipseDuration" required>
+        <label for="moonDistance">Enter the distance between the moon and the earth in kilometers:</label>
+        <input type="number" id="moonDistance" required>
+        <label for="sunDistance">Enter the distance between the sun and the earth in kilometers:</label>
+        <input type="number" id="sunDistance" required>
+        <label for="moonRadius">Enter the radius of the moon in kilometers:</label>
+        <input type="number" id="moonRadius" required>
+        <label for="sunRadius">Enter the radius of the sun in kilometers:</label>
+        <input type="number" id="sunRadius" required>
+        <button type="submit">Calculate</button>
+    </form>
+    <div class="result">
+        <p id="eclipseWidth"></p>
+        <p id="moonShadowLength"></p>
+        <p id="eclipseDurationInSeconds"></p>
+    </div>
+    <script>
+        document.getElementById('eclipseForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var eclipseDuration = parseFloat(document.getElementById('eclipseDuration').value);
+            var moonDistance = parseFloat(document.getElementById('moonDistance').value);
+            var sunDistance = parseFloat(document.getElementById('sunDistance').value);
+            var moonRadius = parseFloat(document.getElementById('moonRadius').value);
+            var sunRadius = parseFloat(document.getElementById('sunRadius').value);
+            var pi = 3.14159265358979323846;
+
+            var eclipseWidth = 2 * moonRadius * Math.tan((pi / 180) * (eclipseDuration / 2) / 60);
+            var moonShadowLength = moonDistance * eclipseWidth / sunDistance;
+            var eclipseDurationInSeconds = eclipseDuration * 60;
+
+            document.getElementById('eclipseWidth').textContent = "The width of the eclipse is " + eclipseWidth.toFixed(2) + " kilometers.";
+            document.getElementById('moonShadowLength').textContent = "The length of the moon's shadow on the earth is " + moonShadowLength.toFixed(2) + " kilometers.";
+            document.getElementById('eclipseDurationInSeconds').textContent = "The duration of the eclipse in seconds is " + eclipseDurationInSeconds + " seconds.";
+        });
+    </script>
+</body>
+</html>
